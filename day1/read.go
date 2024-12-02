@@ -1,4 +1,4 @@
-package read
+package day1
 
 import (
 	"bufio"
@@ -9,7 +9,7 @@ import (
 )
 
 func ReadFile() ([]int, []int, error) {
-	filename := "read/input.txt"
+	filename := "day1/input.txt"
 
 	var leftColumn []int
 	var rightColumn []int
