@@ -8,25 +8,23 @@ func GetSafeReports() int {
 	}
 
 	safeCount := 0
-
 	for _, arr := range matrix {
-		if computeRowVariations(arr) {
+		if checkVariations(arr) {
 			safeCount++
 		}
 	}
-
 	return safeCount
 }
 
-func computeRowVariations(arr []int) bool {
-	if computeRow(arr) {
+func checkVariations(arr []int) bool {
+	if check(arr) {
 		return true
 	}
 
-	for i := range arr {
-		variation := remove(arr, i)
+	for i := 0; i < len(arr); i++ {
+		temp := remove(arr, i)
 
-		if computeRow(variation) {
+		if check(temp) {
 			return true
 		}
 	}
@@ -34,59 +32,37 @@ func computeRowVariations(arr []int) bool {
 	return false
 }
 
-func computeRow(arr []int) bool {
-	var shouldIncrease *bool
+func check(arr []int) bool {
+	delta := getDeltas(arr)
+	isDesc := func(i int) bool { return i <= -1 && i >= -3 }
+	isAsc := func(i int) bool { return i >= 1 && i <= 3 }
 
-	prev := arr[0]
+	desc := all(delta, isDesc)
+	asc := all(delta, isAsc)
 
-	for i := 1; i < len(arr); i++ {
-		curr := arr[i]
+	return desc || asc
+}
 
-		// precondition to figure out if should increase
-		if shouldIncrease == nil {
-			if prev < curr {
-				shouldIncrease = new(bool)
-				*shouldIncrease = true
-			}
+func getDeltas(arr []int) []int {
+	deltas := make([]int, len(arr)-1)
+	for i := 0; i < len(arr)-1; i++ {
+		deltas[i] = arr[i] - arr[i+1]
+	}
+	return deltas
+}
 
-			if prev > curr {
-				shouldIncrease = new(bool)
-				*shouldIncrease = false
-			}
-
-			if prev == curr {
-				return false
-			}
-		}
-
-		if *shouldIncrease && prev > curr {
+func all(s []int, pred func(int) bool) bool {
+	for _, t := range s {
+		if !pred(t) {
 			return false
 		}
-
-		if !*shouldIncrease && prev < curr {
-			return false
-		}
-
-		diff := abs(prev - curr)
-
-		if diff > 3 || diff == 0 {
-			return false
-		}
-
-		prev = arr[i]
 	}
 
 	return true
 }
 
-func abs(x int) int {
-	if x < 0 {
-		return -x
-	}
-
-	return x
-}
-
-func remove(slice []int, s int) []int {
-	return append(slice[:s], slice[s+1:]...)
+func remove(s []int, i int) []int {
+	r := make([]int, 0)
+	r = append(r, s[:i]...)
+	return append(r, s[i+1:]...)
 }

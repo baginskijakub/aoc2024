@@ -1,10 +1,9 @@
 package main
 
 import (
-	"aoc/day2"
-	"fmt"
+	"aoc/day3"
 )
 
 func main() {
-	fmt.Println(day2.GetSafeReports())
+	day3.GetConditionalResults()
 }
