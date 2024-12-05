@@ -1,9 +1,9 @@
 package main
 
 import (
-	"aoc/day3"
+	"aoc/day4"
 )
 
 func main() {
-	day3.GetConditionalResults()
+	day4.Find()
 }
