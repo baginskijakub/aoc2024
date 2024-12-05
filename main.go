@@ -1,9 +1,9 @@
 package main
 
 import (
-	"aoc/day4"
+	"aoc/day5"
 )
 
 func main() {
-	day4.Find()
+	day5.Part2()
 }
